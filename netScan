@@ -1,0 +1,50 @@
+#!/bin/bash
+
+if [[ $(ls | grep "Logs") == "Logs" ]];then
+        sudo rm -r Logs
+fi
+mkdir Logs
+sudo iwlist wlan0 scan > tmp
+mapfile -t essid < <(cat tmp | grep "ESSID")
+mapfile -t ssid < <(cat tmp | grep "Address")
+mapfile -t channel < <(cat tmp | grep "Channel:")
+mapfile -t frequency < <(cat tmp | grep "Frequency")
+mapfile -t quality < <(cat tmp | grep "Quality")
+mapfile -t encryption < <(cat tmp | grep "Encryption")
+mapfile -t mode < <(cat tmp | grep "Mode")
+mapfile -t ieee < <(cat tmp | grep "IE: IEEE")
+mapfile -t group < <(cat tmp | grep "Group Cipher")
+mapfile -t pairwise < <(cat tmp | grep "Pairwise")
+mapfile -t auth < <(cat tmp | grep "Authentication")
+sudo rm -r tmp
+len=${#essid[@]}
+for (( x=0;x<$len;x++ ))
+do
+        essid[$x]=${essid[$x]:27:${#essid[$x]}-28}
+        ssid[$x]=${ssid[$x]:29:${#ssid[$x]}}
+        channel[$x]=${channel[$x]:20:${#channel[$x]}}
+        frequency[$x]=${frequency[$x]:20:${#frequency[$x]}-32}
+        quality[$x]=${quality[$x]:20:${#quality[$x]}}
+        encryption[$x]=${encryption[$x]:20:${#encryption[$x]}}
+        mode[$x]=${mode[$x]:20:${#mode[$x]}}
+        ieee[$x]=${ieee[$x]:28:${#ieee[$x]}}
+        group[$x]=${group[$x]:24:${#group[$x]}}
+        pairwise[$x]=${pairwise[$x]:24:${#pairwise[$x]}}
+        auth[$x]=${auth[$x]:24:${#auth[$x]}}
+        name="${essid[$x]// /-}"
+        if [[ $(ls Logs | grep "$name") == "$name" ]];then
+                sudo rm -r "Logs/$name"
+        fi
+        echo "ESSID: ${essid[$x]}" > "Logs/${essid[$x]// /-}"
+        echo "${ssid[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${channel[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${frequency[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${quality[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${encryption[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${mode[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "IE: IEE ${ieee[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${group[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${pairwise[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "${auth[$x]}" >> "Logs/${essid[$x]// /-}"
+        echo "" >> "Logs/${essid[$x]// /-}"
+done
