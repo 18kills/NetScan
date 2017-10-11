@@ -20,7 +20,7 @@ sudo rm -r tmp
 len=${#essid[@]}
 for (( x=0;x<$len;x++ ))
 do
-        essid[$x]=${essid[$x]:27:${#essid[$x]}-28}
+        essid[$x]=${essid[$x]:27:${#essid[$x]}}
         ssid[$x]=${ssid[$x]:29:${#ssid[$x]}}
         channel[$x]=${channel[$x]:20:${#channel[$x]}}
         frequency[$x]=${frequency[$x]:20:${#frequency[$x]}-32}
