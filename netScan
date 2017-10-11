@@ -42,8 +42,12 @@ do
         echo "${quality[$x]}" >> "Logs/${essid[$x]// /-}"
         echo "${encryption[$x]}" >> "Logs/${essid[$x]// /-}"
         echo "${mode[$x]}" >> "Logs/${essid[$x]// /-}"
-        echo "IE: IEE ${ieee[$x]}" >> "Logs/${essid[$x]// /-}"
-        echo "${group[$x]}" >> "Logs/${essid[$x]// /-}"
+        if [ ! -z ${ieee[$x]} ];then
+                echo "IE: IEE ${ieee[$x]}" >> "Logs/${essid[$x]// /-}"
+        fi
+        if [ ! -z ${group[$x]} ];then
+                echo "${group[$x]}" >> "Logs/${essid[$x]// /-}"
+        fi
         echo "${pairwise[$x]}" >> "Logs/${essid[$x]// /-}"
         echo "${auth[$x]}" >> "Logs/${essid[$x]// /-}"
         echo "" >> "Logs/${essid[$x]// /-}"
