@@ -1,2 +1,9 @@
 # NetScan
-Scans the network with iwlist and puts info for each network into its own file in the Logs folder
+Network scanner
+
+###What it does
+NetScan is a program that uses iwlist to scan visible netwroks
+When a network is found NetScan then records the information for that network into a fold 
+The fold is the name of the network 
+
+### Work in Progress
