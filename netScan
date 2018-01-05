@@ -20,7 +20,7 @@ sudo rm -r tmp
 len=${#essid[@]}
 for (( x=0;x<$len;x++ ))
 do
-        essid[$x]=${essid[$x]:27:${#essid[$x]}}
+        essid[$x]=${essid[$x]:27:${#essid[$x]}-28}
         ssid[$x]=${ssid[$x]:29:${#ssid[$x]}}
         channel[$x]=${channel[$x]:20:${#channel[$x]}}
         frequency[$x]=${frequency[$x]:20:${#frequency[$x]}-32}
@@ -42,10 +42,10 @@ do
         echo "${quality[$x]}" >> "Logs/${essid[$x]// /-}"
         echo "${encryption[$x]}" >> "Logs/${essid[$x]// /-}"
         echo "${mode[$x]}" >> "Logs/${essid[$x]// /-}"
-        if [ ! -z ${ieee[$x]} ];then
+        if [[ ! -z ${ieee[$x]} ]];then
                 echo "IE: IEE ${ieee[$x]}" >> "Logs/${essid[$x]// /-}"
         fi
-        if [ ! -z ${group[$x]} ];then
+        if [[ ! -z ${group[$x]} ]];then
                 echo "${group[$x]}" >> "Logs/${essid[$x]// /-}"
         fi
         echo "${pairwise[$x]}" >> "Logs/${essid[$x]// /-}"
